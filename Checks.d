@@ -24,10 +24,17 @@ enum explicitThrowSpec = "/* may throw */";
  */
 
 void lintError(CppLexer.Token tok, const string error) {
-  stderr.writef("%.*s:%u: %s",
-                cast(uint) tok.file_.length, tok.file_,
-                cast(uint) tok.line_,
-                error);
+  static if (1) { //visual studio error type, Remo 
+    stderr.writef("%.*s(%u): %s",
+                  cast(uint) tok.file_.length, tok.file_,
+                  cast(uint) tok.line_,
+                  error);
+  } else {
+    stderr.writef("%.*s:%u: %s",
+                  cast(uint) tok.file_.length, tok.file_,
+                  cast(uint) tok.line_,
+                  error);
+  }
 }
 
 void lintWarning(CppLexer.Token tok, const string warning) {
