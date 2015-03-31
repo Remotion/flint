@@ -2044,6 +2044,48 @@ uint checkUpcaseNull(string fpath, Token[] v) {
   return ret;
 }
 
+uint checkLegacyC4DApi(string fpath, Token[] v) {
+
+  uint ret = 0;
+
+  void checkType(Token t, string from, string to){
+    if (t.value_ == from) {
+      lintAdvice(t,"Prefer `"~to~"' to `"~from~"' in new C++ code.\n");
+      ++ret;
+    }
+  }
+
+  foreach (ref t; v) {
+    if (t.type_ != tk!"identifier") continue;
+
+    checkType(t,"CHAR" ,"Char");
+    checkType(t,"UCHAR","UChar");
+
+    checkType(t,"SWORD","Int16");
+    checkType(t,"UWORD","UInt16");
+
+    checkType(t,"LONG" ,"Int32");
+    checkType(t,"ULONG","UInt32");
+
+    checkType(t,"LLONG" ,"Int64");
+    checkType(t,"LULONG","UInt64");
+
+    checkType(t,"VLONG" ,"Int");
+    checkType(t,"VULONG","UInt");
+
+    checkType(t,"Real"   ,"Float");
+    checkType(t,"SReal"  ,"Float32");
+    checkType(t,"LReal"  ,"Float64");
+
+    checkType(t,"SVector","Vector32");
+    checkType(t,"LVector","Vector64");
+
+    checkType(t,"SMatrix","Matrix32");
+    checkType(t,"LMatrix","Matrix64");
+  }
+  return ret;
+}
+
 static bool endsClass(CppLexer.TokenType2 tkt) {
   return tkt.among(tk!"\0", tk!"{", tk!";") != 0;
 }

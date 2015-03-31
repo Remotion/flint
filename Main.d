@@ -75,7 +75,10 @@ checks = mixin(
       checkImplicitCast,
       checkUpcaseNull,
       checkExceptionInheritance,
-      checkMutexHolderHasName)
+      checkMutexHolderHasName,
+      ///Legacy C4D API Checks >>>
+      checkLegacyC4DApi
+      )
   );
 
  if (include_what_you_use) {
